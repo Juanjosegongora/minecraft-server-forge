@@ -1,0 +1,7 @@
+#! /bin/bash
+
+# Ir a la carpeta server
+cd /opt/minecraft/
+
+# Iniciar el server
+sudo java -Xms1024M -Xmx2000M -jar forge-1.12.2-14.23.5.2847-universal.jar nogui
