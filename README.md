@@ -139,7 +139,8 @@ Y en el archivo nos generará algo parecido a esto.
 ```
 
 ### INSERCION DE MODS EN EL SERVER.
-Para la insercion de mods es el server lo unico que hay que hacer es descargarse los mods y meterlos dentro de la carpeta mods del juego.
+
+Para insertar mods en el servidor hay que descargarlos ojo con la version de los mods que coincidan con la del server, y meterlos en `/opt/minecraft/mods/`
 
 Ojo porque algunos mods necesitan librerias para ser utilizados, en este caso igualemete descargas las librerias y las metes en esa carpeta.
 
