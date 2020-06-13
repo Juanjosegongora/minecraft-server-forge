@@ -8,7 +8,7 @@ Para empezar se necesita java tanto como para iniciar el juego y para el servido
 ```
 sudo apt install openjdk-8-jre-headless
 ```
-Si tienes otra version de java mas actualizada tendras que usar la 8 para que el servidor funcione, podemos cambiarlo de la siguiente forma...
+Si tienes otra versión de java mas actualizada tendrás que usar la 8 para que el servidor funcione, podemos cambiarlo de la siguiente forma...
 ```
 update-alternatives --config java
 ```
@@ -23,29 +23,29 @@ Sale algo parecido a esto...
 
 Pulse <Intro> para mantener el valor por omisión [*] o pulse un número de selección: 
 ```
-En mi caso la version 8 es el numero 3 y elijo esa opción.
+En mi caso la versión 8 es el numero 3 y elijo esa opción.
 
 ## INSTALACION DE SERVIDOR MINECRAFT FORGE
 
-Elegir una ruta donde instalarlo, se puede hacer en cualqier sitio, yo lo haré en `/opt/`
+Elegir una ruta donde instalarlo, se puede hacer en cualquier sitio, yo lo haré en `/opt/`
 ```
 mkdir /opt/minecraft
 cd /opt/minecraft
 ```
-Ahora hay que descargar el archivo server de forge desde la pagina, yo haré el servidor con la version `1.12.2` de minecraft porque actualmente tiene muchos mods. Pero en esa pagina encontramos todas las versiones.
+Ahora hay que descargar el archivo server de forge desde la pagina, yo haré el servidor con la versión `1.12.2` de minecraft porque actualmente tiene muchos mods. Pero en esa pagina encontramos todas las versiones.
 ```
 https://files.minecraftforge.net/
 ```
-Llegó el momento de la configuracion, dentro de la carpeta donde esta nuestro server meteremos el archivo descargado y lo iniciaremos.
+Llegó el momento de la configuración, dentro de la carpeta donde esta nuestro server meteremos el archivo descargado y lo iniciaremos.
 ```
 java -jar [NOMBRE_DE_NUESTRO_ARCHIVO] --installServer
 ```
-Esto nos va a generar mas archivos, los de forge y tambien nos da el de minecraft server, ahora nos toca inciar ese. Este archivo es parecido al otro, asi que primero eliminar el archivo antiguo para evitar confusiones. (Como ejemplo el archivo que tengo que eliminar yo es `forge-1.12.2-14.23.5.2838-installer.jar`)
+Esto nos va a generar mas archivos, los de forge y también nos da el de minecraft server, ahora nos toca iniciar ese. Este archivo es parecido al otro, así que primero eliminar el archivo antiguo para evitar confusiones. (Como ejemplo el archivo que tengo que eliminar yo es `forge-1.12.2-14.23.5.2838-installer.jar`)
 ```
 rm [NOMBRE_ARCHIVO_ANTERIOR]
 ```
 
-Ahora inciar el otro que en mi caso es `forge-1.12.2-14.23.5.2838-universal.jar`
+Ahora iniciar el otro que en mi caso es `forge-1.12.2-14.23.5.2838-universal.jar`
 
 ```
 java -Xms1024M -Xmx2000M -jar [NUESTRO_ARCHIVO] nogui  
@@ -58,35 +58,35 @@ Volvemos a ejecutar la orden anterior...
 ```
 java -Xms1024M -Xmx2000M -jar [NUESTRO_ARCHIVO] nogui  
 ```
-Ahora se habran generado mas archivos incluidos el `server.properties`
+Ahora se habrn generado mas archivos incluidos el `server.properties`
 
 Resaltaré las lineas mas importantes...
 - gamemode
-    - El modo de juego, se pone con numeros
+    - El modo de juego, se pone con números
         - 0=Survival
         - 1=Creative
         - 2=Adventure
 - max-player
-    - Numero maximo de jugadores en el servidor (al mismo tiempo claro)
+    - Numero máximo de jugadores en el servidor (al mismo tiempo claro)
 - server-port
     - El puerto donde escuchará por defecto tiene el `25565` recomiendo dejarlo así
 - server-ip
     - La IP de la maquina donde estará el servidor.
 - level-name
-    - Nombre de la carpeta donde está el "mundo" si quereis un mundo nuevo dejarlo por defecto es la mejor opcion, te generará uno atumaticamente y lo meterá en una carpeta llamada default.
+    - Nombre de la carpeta donde está el "mundo" si queréis un mundo nuevo dejarlo por defecto es la mejor opción, te generará uno automáticamente y lo meterá en una carpeta llamada default.
 - online-mode
     - Tiene dos modos:
         - `true` para los que tienen minecraft comprado
         - `false` para ambos jugadores tanto los que compraron como los que no.
 
-De esta forma tenemos minecraft server configurado, solo con iniciar el servidor ya podrias jugar
+De esta forma tenemos minecraft server configurado, solo con iniciar el servidor ya podrías jugar
 ```
 java -Xms1024M -Xmx2000M -jar [NUESTRO_ARCHIVO] nogui  
 ```
 
 ## AUTOMATIZACION Y CONFIGURACION INICIAL
 
-Si queremos una forma mas facil de inciar minecraft tenemos la opción de crear un script.
+Si queremos una forma mas fácil de iniciar minecraft tenemos la opción de crear un script.
 
 ### CREAR SCRIPT PARA INICIAR `MINECRAFT_SERVER`
 
@@ -105,7 +105,7 @@ cd [RUTA_DONDE_ESTA_SERVER]
 # Iniciar el server
 sudo java -Xms1024M -Xmx2000M -jar [NOMBRE_ARCHIVO_INICIACION_SERVER] nogui
 ```
-Para mi caso se quedaria una cosa asi...
+Para mi caso se quedaría una cosa así...
 ```
 #! /bin/bash
 
@@ -121,7 +121,7 @@ minecraft_server
 ```
 ### CONFIGURACION DE `ops.json`
 
-Este archivo contiene los mienbros del servidor que tienen acceso para realizar comandos dentro del juego.
+Este archivo contiene los miembros del servidor que tienen acceso para realizar comandos dentro del juego.
 
 Para hacer que sea administrador, con el server iniciado en el terminal ponemos lo siguiente.
 ```
@@ -140,8 +140,8 @@ Y en el archivo nos generará algo parecido a esto.
 
 ### INSERCION DE MODS EN EL SERVER.
 
-Para insertar mods en el servidor hay que descargarlos ojo con la version de los mods que coincidan con la del server, y meterlos en `/opt/minecraft/mods/`
+Para insertar mods en el servidor hay que descargarlos ojo con la versión de los mods que coincidan con la del server, y meterlos en `/opt/minecraft/mods/`
 
-Ojo porque algunos mods necesitan librerias para ser utilizados, en este caso igualemete descargas las librerias y las metes en esa carpeta.
+Ojo porque algunos mods necesitan librerías para ser utilizados, en este caso descargas las librerías y las metes en esa carpeta.
 
-Los jugadores deberán tener los mismos mods para poder juagar en el servidor. Que para insertarlos seria ir a la carpeta `$HOME/.minecraft/mods`. Insertar aqui los mismos que al servidor y reiniciar server.
+Los jugadores deberán tener los mismos mods para poder jugar en el servidor. Que para insertarlos seria ir a la carpeta `$HOME/.minecraft/mods`. Insertar aquí los mismos que al servidor y reiniciar server.
