@@ -1,6 +1,6 @@
 # INSTALACION DE MINECRAFT SERVER CON FORGE EN UBUNTU
 
-NOTA: Las siguientes sentencias de comando es recomendable hacerlas como root, yo en los comandos NO podré `sudo`
+NOTA: Las siguientes sentencias de comando es recomendable hacerlas como root, yo en los comandos NO pondré `sudo`
 
 ## INSTALACION Y CONFIGURACION DE JAVA
 
