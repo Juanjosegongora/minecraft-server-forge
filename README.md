@@ -137,6 +137,7 @@ Y en el archivo nos generará algo parecido a esto.
     "bypassesPlayerLimit": false
   },
 ```
+Cuando esto este hecho ya se podra realizar cualquier comando de servidor desde el propio juego, con el chat.
 
 ### INSERCION DE MODS EN EL SERVER.
 
@@ -145,3 +146,131 @@ Para insertar mods en el servidor hay que descargarlos ojo con la versión de lo
 Ojo porque algunos mods necesitan librerías para ser utilizados, en este caso descargas las librerías y las metes en esa carpeta.
 
 Los jugadores deberán tener los mismos mods para poder jugar en el servidor. Que para insertarlos seria ir a la carpeta `$HOME/.minecraft/mods`. Insertar aquí los mismos que al servidor y reiniciar server.
+
+## CREACION DE UN SERVICIO CON SYSTEMD
+Para facilitar el uso del servidor podemos crear un servicio con `systemd`.
+
+Lo primero es lo siguiente, cogemos el script que habiamos creado antes y lo movemos a la carpeta de nuestro servidor, y de paso le cambiamos el nombre si queremos.
+```
+mv /bin/minecraft_server /opt/mincraft/run.sh
+```
+Lo siguiente es la creacion del servicio, que eso se hace generando un archivo en `/etc/systemd/system/`
+```
+touch /etc/systemd/system/minecraft.service
+```
+Con el siguiente contenido:
+```
+[Unit]
+Description=Minecraft server
+After=network.target
+
+[Service]
+User=minecraft
+ExecStart=/opt/minecraft/run.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+- Unit
+  - Descripcion: Una breve descripcion de que se trata el servicio.
+  - Afer=network.target: Aqui le indicamos que ese servicio sera iniciado una vez la tarjeta de red este iniciada.
+- Service
+  - User: El usuario que controlara ese servicio, se puede usar uno local del sistema o crear un usuario que controle ese servicio.
+  - ExecStart=/opt/minecraft/run.sh: Aqui lo que le estamos indicando es que va a hacer el servicio para iniciar el servidor de minecraft, que simplemente pues iniciar el script que habiamos movido a la carpeta del juego antes, simplemente le damos la ruta.
+- Install
+  - WantedBy=multi-user.target: esto se encarga de hacer que podamos usar el comando `systemctl` o `service` directamente sin tener que configurar enlaces simbolicos, es mucho mas facil ponerlo.
+
+Ahora toca controlar ese servicio que lo podemos hacer con el comando `systemctl`.
+```
+systemctl [parametro] minecraft
+```
+Los parametros pueden ser:
+- start: Iniciar servicio.
+- stop: Parar servicio.
+- restart: Reiniciar servicio.
+- status: Ver el etado del servidor.
+- enable: Hacer que se ejecute automaticamente cuando el sistema se inicie.
+- disable: Hacer que no se ejecute automaticamente cuando el sistema se inicie.
+
+## COPIAS DE SEGURIDAD.
+Imaginemos que hay algun mod que no se ha metido aun o simplemente queremos hacer una copia de seguridad del juego, para eso podemos generar un script que al ejecutarlo nosotros cree una copia de seguridad.
+
+Podemos llamar al archivo `backup.sh` y meterlo en nuestra carpeta personal por ejemplo.
+```
+touch $HOME/backup.sh
+```
+Lo primero en el script sera comprobar si la carpeta donde queremos guardar la copia existe y sino, que lo cree. 
+
+Por ejemplo yo escogi la ruta `$HOME/minecraft_backup` que es en la carpeta personal de ese mismo usuario una carpeta que se llame `minecraft_backup`.
+```
+# COMPROBAR SI EXISTE LA CARPETA DONDE GUARDAR LAS COPIAS
+RUTA=$HOME/minecraft_backup
+if test -d $RUTA; then
+  echo
+else
+  mkdir $RUTA
+fi
+```
+
+Lo siguiente seria parar el servidor para que haga una copia sin que se pueda modificar nada en lo que la hace.
+```
+# PARAR SERVICIO DE MINECRAFT
+systemctl stop minecraft
+```
+
+Lo siguiente es realizar la copia, que de la siguiente forma la copia se guardara con el nombre y la fecha y hora de ese momento, para saber cuando se hizo.
+```
+# REALIZAR COPIA DE SEGURIDAD
+FECHA=$(date -Idate)
+tar cvzf $RUTA$FECHA.tar.gz /opt/minecraft
+echo "La copia se realizó correctamente"
+```
+
+Lo siguiente seria volver a iniciar el servidor o no, que podemos aprovechar para poner algo nuevo y luego iniciarlo a mano, o si es solo copia le decimos que si y lo inicia solo.
+
+```
+# INICIAR EL SERVIDOR
+read -n1 -p "Do you want to start the server? (y/n)" RESP
+if [ $RESP = y ]; then
+	echo "starting server..."
+	service start minecraft
+	echo
+	echo "Ready"
+else
+	echo 
+	echo "Ready"
+fi
+```
+
+El script completo seria el siguiente.
+```
+#! /bin/bash
+
+# COMPROBAR SI EXISTE LA CARPETA DONDE GUARDAR LAS COPIAS
+RUTA=$HOME/minecraft_backup
+if test -d $RUTA; then
+  echo
+else
+  mkdir $RUTA
+fi
+
+# PARAR SERVICIO DE MINECRAFT
+systemctl stop minecraft
+
+# REALIZAR COPIA DE SEGURIDAD
+FECHA=$(date -Idate)
+tar cvzf $RUTA$FECHA.tar.gz /opt/minecraft
+echo "La copia se realizó correctamente"
+
+# INICIAR EL SERVIDOR
+read -n1 -p "Do you want to start the server? (y/n)" RESP
+if [ $RESP = y ]; then
+	echo "starting server..."
+	service start minecraft
+	echo
+	echo "Ready"
+else
+	echo 
+	echo "Ready"
+fi
+```
