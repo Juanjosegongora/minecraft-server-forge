@@ -266,7 +266,7 @@ echo "La copia se realizó correctamente"
 read -n1 -p "Do you want to start the server? (y/n)" RESP
 if [ $RESP = y ]; then
 	echo "starting server..."
-	service start minecraft
+	systemctl minecraft start
 	echo
 	echo "Ready"
 else
