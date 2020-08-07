@@ -1,8 +1,15 @@
-# INSTALACION DE MINECRAFT SERVER CON FORGE EN UBUNTU
+---
+title: "INSTALACION DE MINECRAFT SERVER CON FORGE EN LINUX"
+author: [Juan José Góngora Contreras]
+subject: "Markdown"
+keywords: [Markdown, README]
+lang: "en"
+toc-own-page: "true"
+---
 
 NOTA: Las siguientes sentencias de comando es recomendable hacerlas como root, yo en los comandos NO pondré `sudo`
 
-## INSTALACION Y CONFIGURACION DE JAVA
+# INSTALACION Y CONFIGURACION DE JAVA
 
 Para empezar se necesita java tanto como para iniciar el juego y para el servidor.
 ```
@@ -25,7 +32,7 @@ Pulse <Intro> para mantener el valor por omisión [*] o pulse un número de sele
 ```
 En mi caso la versión 8 es el numero 3 y elijo esa opción.
 
-## INSTALACION DE SERVIDOR MINECRAFT FORGE
+# INSTALACION DE SERVIDOR MINECRAFT FORGE
 
 Elegir una ruta donde instalarlo, se puede hacer en cualquier sitio, yo lo haré en `/opt/`
 ```
@@ -84,11 +91,11 @@ De esta forma tenemos minecraft server configurado, solo con iniciar el servidor
 java -Xms1024M -Xmx2000M -jar [NUESTRO_ARCHIVO] nogui  
 ```
 
-## AUTOMATIZACION Y CONFIGURACION INICIAL
+# AUTOMATIZACION Y CONFIGURACION INICIAL
 
 Si queremos una forma mas fácil de iniciar minecraft tenemos la opción de crear un script.
 
-### CREAR SCRIPT PARA INICIAR `MINECRAFT_SERVER`
+## CREAR SCRIPT PARA INICIAR `MINECRAFT_SERVER`
 
 Crearé un archivo en `/bin` es donde se alojan los comandos del sistema
 ```
@@ -119,7 +126,7 @@ Con esto creado solo basta con poner el nombre del script en un terminal como `r
 ```
 minecraft_server
 ```
-### CONFIGURACION DE `ops.json`
+## CONFIGURACION DE `ops.json`
 
 Este archivo contiene los miembros del servidor que tienen acceso para realizar comandos dentro del juego.
 
@@ -139,7 +146,7 @@ Y en el archivo nos generará algo parecido a esto.
 ```
 Cuando esto este hecho ya se podra realizar cualquier comando de servidor desde el propio juego, con el chat.
 
-### INSERCION DE MODS EN EL SERVER.
+## INSERCION DE MODS EN EL SERVER.
 
 Para insertar mods en el servidor hay que descargarlos ojo con la versión de los mods que coincidan con la del server, y meterlos en `/opt/minecraft/mods/`
 
@@ -147,7 +154,7 @@ Ojo porque algunos mods necesitan librerías para ser utilizados, en este caso d
 
 Los jugadores deberán tener los mismos mods para poder jugar en el servidor. Que para insertarlos seria ir a la carpeta `$HOME/.minecraft/mods`. Insertar aquí los mismos que al servidor y reiniciar server.
 
-## CREACION DE UN SERVICIO CON SYSTEMD
+# CREACION DE UN SERVICIO CON SYSTEMD
 Para facilitar el uso del servidor podemos crear un servicio con `systemd`.
 
 Lo primero es lo siguiente, cogemos el script que habiamos creado antes y lo movemos a la carpeta de nuestro servidor, y de paso le cambiamos el nombre si queremos.
@@ -192,7 +199,7 @@ Los parametros pueden ser:
 - enable: Hacer que se ejecute automaticamente cuando el sistema se inicie.
 - disable: Hacer que no se ejecute automaticamente cuando el sistema se inicie.
 
-## COPIAS DE SEGURIDAD.
+# COPIAS DE SEGURIDAD.
 Imaginemos que hay algun mod que no se ha metido aun o simplemente queremos hacer una copia de seguridad del juego, para eso podemos generar un script que al ejecutarlo nosotros cree una copia de seguridad.
 
 Podemos llamar al archivo `backup.sh` y meterlo en nuestra carpeta personal por ejemplo.
